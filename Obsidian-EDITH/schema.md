@@ -143,24 +143,30 @@ erDiagram
     users }o--o| roles : has
     users ||--o{ projects : creates
     users ||--o{ comments : authors
-    users }o--o{ projects : collaborates
-    users }o--o{ users : follows
-    users }o--o{ projects : rates
+    users ||--o{ project_collaborators : "collaborates_via"
+    users ||--o{ project_ratings : rates
+    users ||--o{ affiliations : "refers_as_creator"
+    users ||--o{ affiliations : "referred_as_affiliate"
+    users ||--o{ referral_codes : generates
     
     roles ||--o{ role_permissions : has
     permissions ||--o{ role_permissions : granted_by
     
     profiles ||--o{ comments : receives
     projects ||--o{ comments : receives
+    projects ||--o{ project_collaborators : has
+    projects ||--o{ project_ratings : rated_on
+    
+    referral_codes ||--o{ affiliations : "used_in"
 
     users {
         uuid id PK
-        text email UK "NOT NULL"
-        text password_hash "NOT NULL"
+        text email UK
+        text password_hash
         text name
         int number UK
         uuid role_id FK
-        boolean active "DEFAULT true"
+        boolean active
         timestamp created_at
         timestamp updated_at
         timestamp last_login
@@ -168,7 +174,7 @@ erDiagram
     
     profiles {
         uuid id PK
-        uuid user_id FK, UK "NOT NULL"
+        uuid user_id FK,UK
         text description
         text avatar_url
         timestamp created_at
@@ -177,12 +183,12 @@ erDiagram
     
     comments {
         uuid id PK
-        uuid author_id FK "NOT NULL"
-        text commentable_type "NOT NULL (profile/project)"
-        uuid commentable_id FK "NOT NULL"
-        uuid parent_comment_id FK "NULL (for replies)"
-        text content "NOT NULL"
-        boolean is_visible "DEFAULT true"
+        uuid author_id FK
+        text commentable_type
+        uuid commentable_id FK
+        uuid parent_comment_id FK
+        text content
+        boolean is_visible
         timestamp created_at
         timestamp updated_at
         timestamp deleted_at
@@ -190,13 +196,13 @@ erDiagram
     
     roles {
         uuid id PK
-        text name UK "NOT NULL"
+        text name UK
         text description
     }
     
     permissions {
         uuid id PK
-        text name UK "NOT NULL"
+        text name UK
         text description
     }
     
@@ -206,28 +212,43 @@ erDiagram
         uuid permission_id FK
     }
     
+    referral_codes {
+        uuid id PK
+        uuid creator_id FK
+        text code UK
+        int usage_count
+        int usage_limit
+        timestamp expires_at
+        boolean is_active
+        timestamp created_at
+    }
+    
     affiliations {
         uuid id PK
-        uuid follower_id FK
-        uuid following_id FK
+        uuid creator_id FK
+        uuid affiliated_user_id FK
+        uuid referral_code_id FK
+        text metadata
         timestamp created_at
+        timestamp expires_at
+        boolean is_active
     }
     
     project_collaborators {
         uuid id PK
         uuid user_id FK
         uuid project_id FK
-        text role "owner/editor/viewer"
+        text role
         timestamp joined_at
     }
     
     projects {
         uuid id PK
-        uuid author_id FK "NOT NULL"
-        text title "NOT NULL"
+        uuid author_id FK
+        text title
         text content
-        boolean is_active "DEFAULT true"
-        boolean is_public "DEFAULT false"
+        boolean is_active
+        boolean is_public
         timestamp created_at
         timestamp updated_at
     }
@@ -236,8 +257,10 @@ erDiagram
         uuid id PK
         uuid project_id FK
         uuid user_id FK
-        int rating "1-5"
+        int rating
         timestamp created_at
         timestamp updated_at
     }
+
+
 ```
