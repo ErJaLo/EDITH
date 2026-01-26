@@ -148,6 +148,8 @@ erDiagram
     users ||--o{ affiliations : "refers_as_creator"
     users ||--o{ affiliations : "referred_as_affiliate"
     users ||--o{ referral_codes : generates
+    users ||--o{ user_audit_logs : "user_actions"
+    users ||--o{ project_audit_logs : "project_actions"
     
     roles ||--o{ role_permissions : has
     permissions ||--o{ role_permissions : granted_by
@@ -156,8 +158,11 @@ erDiagram
     projects ||--o{ comments : receives
     projects ||--o{ project_collaborators : has
     projects ||--o{ project_ratings : rated_on
+    projects ||--o{ project_audit_logs : "has_history"
     
     referral_codes ||--o{ affiliations : "used_in"
+    
+    users ||--o{ user_audit_logs : "has_history"
 
     users {
         uuid id PK
@@ -169,7 +174,20 @@ erDiagram
         boolean active
         timestamp created_at
         timestamp updated_at
-        timestamp last_login
+        timestamp deleted_at
+    }
+    
+    user_audit_logs {
+        uuid id PK
+        uuid user_id FK
+        text action
+        uuid performed_by FK
+        jsonb old_values
+        jsonb new_values
+        text ip_address
+        text user_agent
+        text metadata
+        timestamp created_at
     }
     
     profiles {
@@ -198,18 +216,25 @@ erDiagram
         uuid id PK
         text name UK
         text description
+        timestamp created_at
+        timestamp updated_at
+        uuid updated_by FK
     }
     
     permissions {
         uuid id PK
         text name UK
         text description
+        timestamp created_at
+        timestamp updated_at
     }
     
     role_permissions {
         uuid id PK
         uuid role_id FK
         uuid permission_id FK
+        timestamp created_at
+        uuid created_by FK
     }
     
     referral_codes {
@@ -221,6 +246,8 @@ erDiagram
         timestamp expires_at
         boolean is_active
         timestamp created_at
+        timestamp updated_at
+        uuid updated_by FK
     }
     
     affiliations {
@@ -232,6 +259,8 @@ erDiagram
         timestamp created_at
         timestamp expires_at
         boolean is_active
+        timestamp updated_at
+        uuid updated_by FK
     }
     
     project_collaborators {
@@ -240,6 +269,8 @@ erDiagram
         uuid project_id FK
         text role
         timestamp joined_at
+        timestamp left_at
+        uuid added_by FK
     }
     
     projects {
@@ -251,6 +282,20 @@ erDiagram
         boolean is_public
         timestamp created_at
         timestamp updated_at
+        timestamp deleted_at
+    }
+    
+    project_audit_logs {
+        uuid id PK
+        uuid project_id FK
+        text action
+        uuid performed_by FK
+        jsonb old_values
+        jsonb new_values
+        text ip_address
+        text user_agent
+        text metadata
+        timestamp created_at
     }
     
     project_ratings {
@@ -261,6 +306,4 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-
-
 ```
