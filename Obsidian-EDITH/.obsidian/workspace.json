@@ -214,12 +214,12 @@
         "y": 0,
         "width": 1449,
         "height": 1038,
-        "maximize": false,
+        "maximize": true,
         "zoom": 0
       }
     ]
   },
-  "active": "2c60d6983393aa1a",
+  "active": "efc13b55d9e223b2",
   "lastOpenFiles": [
     "schema.md",
     "```meramid.md",
