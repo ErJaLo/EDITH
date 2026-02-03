@@ -139,30 +139,23 @@ users }o--|| roles : assigned
 
 ```mermaid
 erDiagram
-    users ||--o| profiles : has
     users }o--o| roles : has
     users ||--o{ projects : creates
-    users ||--o{ comments : authors
+    users ||--o{ user_comments : authors
     users ||--o{ project_collaborators : "collaborates_via"
-    users ||--o{ project_ratings : rates
+    users ||--o{ project_comments : authors
     users ||--o{ affiliations : "refers_as_creator"
     users ||--o{ affiliations : "referred_as_affiliate"
     users ||--o{ referral_codes : generates
-    users ||--o{ user_audit_logs : "user_actions"
-    users ||--o{ project_audit_logs : "project_actions"
+    users ||--o{ audit_logs : performs
     
-    roles ||--o{ role_permissions : has
-    permissions ||--o{ role_permissions : granted_by
-    
-    profiles ||--o{ comments : receives
-    projects ||--o{ comments : receives
+    projects ||--o{ project_comments : receives
     projects ||--o{ project_collaborators : has
-    projects ||--o{ project_ratings : rated_on
-    projects ||--o{ project_audit_logs : "has_history"
+    projects ||--o{ audit_logs : "has_history"
+    
+    users ||--o{ user_comments : receives
     
     referral_codes ||--o{ affiliations : "used_in"
-    
-    users ||--o{ user_audit_logs : "has_history"
 
     users {
         uuid id PK
@@ -172,40 +165,34 @@ erDiagram
         int number UK
         uuid role_id FK
         boolean active
+        text description
+        text avatar_url
+        timestamp created_at
+        timestamp password_expire_at 
+        timestamp updated_at
+        timestamp deleted_at
+    }
+    
+    user_comments {
+        uuid id PK
+        uuid author_id FK
+        uuid user_id FK
+        uuid parent_comment_id FK
+        text content
+        int rating
+        boolean is_visible
         timestamp created_at
         timestamp updated_at
         timestamp deleted_at
     }
     
-    user_audit_logs {
-        uuid id PK
-        uuid user_id FK
-        text action
-        uuid performed_by FK
-        jsonb old_values
-        jsonb new_values
-        text ip_address
-        text user_agent
-        text metadata
-        timestamp created_at
-    }
-    
-    profiles {
-        uuid id PK
-        uuid user_id FK,UK
-        text description
-        text avatar_url
-        timestamp created_at
-        timestamp updated_at
-    }
-    
-    comments {
+    project_comments {
         uuid id PK
         uuid author_id FK
-        text commentable_type
-        uuid commentable_id FK
+        uuid project_id FK
         uuid parent_comment_id FK
         text content
+        int rating
         boolean is_visible
         timestamp created_at
         timestamp updated_at
@@ -220,23 +207,7 @@ erDiagram
         timestamp updated_at
         uuid updated_by FK
     }
-    
-    permissions {
-        uuid id PK
-        text name UK
-        text description
-        timestamp created_at
-        timestamp updated_at
-    }
-    
-    role_permissions {
-        uuid id PK
-        uuid role_id FK
-        uuid permission_id FK
-        timestamp created_at
-        uuid created_by FK
-    }
-    
+        
     referral_codes {
         uuid id PK
         uuid creator_id FK
@@ -255,7 +226,6 @@ erDiagram
         uuid creator_id FK
         uuid affiliated_user_id FK
         uuid referral_code_id FK
-        text metadata
         timestamp created_at
         timestamp expires_at
         boolean is_active
@@ -284,26 +254,16 @@ erDiagram
         timestamp updated_at
         timestamp deleted_at
     }
-    
-    project_audit_logs {
+
+    audit_logs {
         uuid id PK
         uuid project_id FK
+        uuid user_id FK
         text action
         uuid performed_by FK
         jsonb old_values
         jsonb new_values
         text ip_address
-        text user_agent
-        text metadata
         timestamp created_at
-    }
-    
-    project_ratings {
-        uuid id PK
-        uuid project_id FK
-        uuid user_id FK
-        int rating
-        timestamp created_at
-        timestamp updated_at
     }
 ```

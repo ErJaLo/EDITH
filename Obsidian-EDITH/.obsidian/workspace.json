@@ -44,7 +44,7 @@
                 "autoReveal": false
               },
               "icon": "lucide-folder-closed",
-              "title": "Explorador de archivos"
+              "title": "Files"
             }
           },
           {
@@ -171,16 +171,55 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:Abrir selector rápido": false,
-      "graph:Abrir vista gráfica": false,
-      "canvas:Crear nuevo lienzo": false,
-      "daily-notes:Abrir la nota de hoy": false,
-      "templates:Insertar plantilla": false,
-      "command-palette:Abrir paleta de comandos": false,
-      "bases:Crear nueva base": false
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
     }
   },
-  "active": "2c60d6983393aa1a",
+  "floating": {
+    "id": "05c49a5c6ee6b446",
+    "type": "floating",
+    "children": [
+      {
+        "id": "85e38849d0dfb184",
+        "type": "window",
+        "children": [
+          {
+            "id": "f0f8c3e87350de7f",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "efc13b55d9e223b2",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "schema.md",
+                    "mode": "preview",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "schema"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical",
+        "x": 0,
+        "y": 0,
+        "width": 1449,
+        "height": 1038,
+        "maximize": false,
+        "zoom": 0
+      }
+    ]
+  },
+  "active": "efc13b55d9e223b2",
   "lastOpenFiles": [
     "schema.md",
     "```meramid.md",
