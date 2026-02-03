@@ -1,5 +1,5 @@
 import express from 'express';
-import path from 'path';
+import userRoutes from './routes/userRoutes';
 import authRoutes from './api/auth';
 import { verifyToken } from './middleware/auth';
 import { AuthRequest } from './types/auth';
@@ -10,9 +10,11 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Rutas públicas
 app.get('/health', (_req, res) => res.json({ ok: true }));
-app.get('/test', (_req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'test.html'));
-});
+app.get('/test', (_req, res) => res.json({ message: 'Test OK' }));
+
+
+app.use('/api', userRoutes);
+
 
 // Rutas de autenticación
 app.use('/auth', authRoutes);
