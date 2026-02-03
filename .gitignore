@@ -44,3 +44,7 @@ Thumbs.db
 # Docker
 docker-data/
 db_data/
+
+
+# Notas
+.notas

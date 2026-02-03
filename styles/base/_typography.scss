@@ -1,0 +1,11 @@
+@use '../vendors/bootstrap' as *;
+// NOTA: _type.scss requiere que _reboot.scss esté cargado en el mismo scope
+// No se puede importar independientemente debido a @extend h1
+// @import "../../node_modules/bootstrap/scss/type";
+@import "../../node_modules/bootstrap/scss/images";
+@import "../../node_modules/bootstrap/scss/tables";
+// Utilidades y helpers
+@import "../../node_modules/bootstrap/scss/transitions";
+@import "../../node_modules/bootstrap/scss/helpers";
+@import "../../node_modules/bootstrap/scss/utilities";
+@import "../../node_modules/bootstrap/scss/utilities/api";

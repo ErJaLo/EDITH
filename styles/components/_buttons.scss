@@ -1,0 +1,11 @@
+@use '../vendors/bootstrap' as *;
+@import "../../node_modules/bootstrap/scss/buttons";
+@import "../../node_modules/bootstrap/scss/button-group";
+@import "../../node_modules/bootstrap/scss/close";
+
+// Tus personalizaciones
+.btn-custom {
+  @extend .btn;
+  background-color: $primary;
+}
+

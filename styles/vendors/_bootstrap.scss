@@ -1,0 +1,8 @@
+// Bootstrap overrides (define variables before importing Bootstrap)
+@import "../abstracts/variables";
+
+// Bootstrap full framework (includes functions, variables, maps, mixins, utilities, components)
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// Bootstrap Icons
+@import "../../node_modules/bootstrap-icons/font/bootstrap-icons";
